@@ -52,11 +52,11 @@ class BrowserLocust(Locust):
 
 
 class BrowserUser(BrowserLocust):
-    host = "localhost:8008"
+    host = "142.244.63.11:8008"
 
     class task_set(TaskSet):
 
         @task(2)
         def get_index(self):
             self.client.get(
-                'http://localhost:8008/learn/khan/math/early-math/cc-early-math-add-sub-basics/cc-early-math-add-sub-intro/addition_1/')
+                'http://142.244.63.11:8008/learn/khan/math/early-math/cc-early-math-add-sub-basics/cc-early-math-add-sub-intro/addition_1/')
