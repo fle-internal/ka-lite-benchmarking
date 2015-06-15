@@ -10,7 +10,8 @@
   user: hchen
   tasks:
     - name: check out locust repo
-      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=~/Projects/benchmarking update=yes force=yes
+      sudo: yes
+      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=/home/{{ userName }}/Projects/benchmarking update=yes force=yes
 
     - name: install requirements
       sudo: yes
@@ -34,7 +35,8 @@
   user: hchen
   tasks:
     - name: check out locust repo
-      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=~/Projects/benchmarking update=yes force=yes
+      sudo: yes
+      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=/home/{{ userName }}/Projects/benchmarking update=yes force=yes
 
     - name: install requirements
       sudo: yes
