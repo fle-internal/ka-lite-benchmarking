@@ -57,4 +57,4 @@ class BrowserUser(BrowserLocust):
 
         @task(2)
         def get_index(self):
-            self.client.get(self.host)
+            self.client.get("/")
