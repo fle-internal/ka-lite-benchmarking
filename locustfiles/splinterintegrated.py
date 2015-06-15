@@ -52,10 +52,9 @@ class BrowserLocust(Locust):
 
 
 class BrowserUser(BrowserLocust):
-    host = "142.244.63.11:8008"
 
     class task_set(TaskSet):
 
         @task(2)
         def get_index(self):
-            self.client.get(host)
+            self.client.get("http://142.244.63.11:8008")
