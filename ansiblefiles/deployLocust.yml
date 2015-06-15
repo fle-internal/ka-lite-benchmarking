@@ -1,0 +1,48 @@
+# deployLocust.yml
+---
+- hosts: master
+  vars: 
+      userName: 'hchen'
+      githubId: 'foolchan2556'
+      targetSite: 'http://142.244.63.11:8008'
+      logUrl: '1.log'
+
+  user: hchen
+  tasks:
+    - name: check out locust repo
+      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=~/Projects/benchmarking update=yes
+
+    - name: install requirements
+      sudo: yes
+      pip: requirements=~/Projects/benchmarking/ansiblefiles/requirements.txt
+
+    - name: install phantomjs
+      sudo: yes
+      apt: name=phantomjs state=present
+
+    - name: run locust
+      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/splinterintegrated.py --master > {{ logUrl }} 2>&1 &
+
+- hosts: slave
+  vars: 
+      userName: 'hchen'
+      githubId: 'foolchan2556'
+      targetSite: 'http://142.244.63.11:8008'
+      masterHost: '142.244.63.11'
+      logUrl: '2.log'
+
+  user: hchen
+  tasks:
+    - name: check out locust repo
+      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=~/Projects/benchmarking update=yes
+
+    - name: install requirements
+      sudo: yes
+      pip: requirements=~/Projects/benchmarking/ansiblefiles/requirements.txt
+
+    - name: install phantomjs
+      sudo: yes
+      apt: name=phantomjs state=present
+
+    - name: run locust
+      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/splinterintegrated.py --slave --master-host={{ masterHost }} > {{ logUrl }} 2>&1 &
