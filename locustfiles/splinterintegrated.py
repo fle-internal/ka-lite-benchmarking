@@ -58,5 +58,4 @@ class BrowserUser(BrowserLocust):
 
         @task(2)
         def get_index(self):
-            self.client.get(
-                'http://142.244.63.11:8008/learn/khan/math/early-math/cc-early-math-add-sub-basics/cc-early-math-add-sub-intro/addition_1/')
+            self.client.get(host)
