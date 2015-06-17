@@ -22,7 +22,7 @@
       apt: name=phantomjs state=present
 
     - name: run locust
-      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --master > {{ logUrl }} 2>&1 &
+      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --master --h {{targetSite}} > {{ logUrl }} 2>&1 &
 
 - hosts: slave
   vars: 
@@ -47,4 +47,4 @@
       apt: name=phantomjs state=present
 
     - name: run locust
-      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --slave --master-host={{ masterHost }} > {{ logUrl }} 2>&1 &
+      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --slave --master-host={{ masterHost }} --h {{targetSite}} > {{ logUrl }} 2>&1 &
