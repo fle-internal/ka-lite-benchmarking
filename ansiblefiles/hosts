@@ -1,0 +1,5 @@
+# hosts
+[master]
+hchen@127.0.0.1
+[slave]
+hchen@142.244.63.173
