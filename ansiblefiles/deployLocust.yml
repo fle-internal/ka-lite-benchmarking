@@ -2,49 +2,46 @@
 ---
 - hosts: master
   vars: 
-      userName: 'hchen'
       githubId: 'foolchan2556'
       targetSite: 'http://142.244.63.11:8008'
       logUrl: '1.log'
 
-  user: hchen
   tasks:
     - name: check out locust repo
       sudo: yes
-      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=/home/{{ userName }}/Projects/benchmarking update=yes force=yes
+      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=/home/{{ ansible_ssh_user }}/Projects/benchmarking update=yes force=yes
 
     - name: install requirements
       sudo: yes
-      pip: requirements=/home/{{ userName }}/Projects/benchmarking/requirements.txt
+      pip: requirements=/home/{{ ansible_ssh_user }}/Projects/benchmarking/requirements.txt
 
     - name: install phantomjs
       sudo: yes
       apt: name=phantomjs state=present
 
     - name: run locust
-      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --master --h {{targetSite}} > {{ logUrl }} 2>&1 &
+      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --master --host '{{targetSite}}' > {{ logUrl }} 2>&1 &
 
 - hosts: slave
   vars: 
-      userName: 'hchen'
       githubId: 'foolchan2556'
       targetSite: 'http://142.244.63.11:8008'
       masterHost: '142.244.63.11'
       logUrl: '2.log'
 
-  user: hchen
+
   tasks:
     - name: check out locust repo
       sudo: yes
-      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=/home/{{ userName }}/Projects/benchmarking update=yes force=yes
+      git: repo=https://github.com/{{ githubId }}/benchmarking.git dest=/home/{{ ansible_ssh_user }}/Projects/benchmarking update=yes force=yes
 
     - name: install requirements
       sudo: yes
-      pip: requirements=/home/{{ userName }}/Projects/benchmarking/requirements.txt
+      pip: requirements=/home/{{ ansible_ssh_user }}/Projects/benchmarking/requirements.txt
 
     - name: install phantomjs
       sudo: yes
       apt: name=phantomjs state=present
 
     - name: run locust
-      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --slave --master-host={{ masterHost }} --h {{targetSite}} > {{ logUrl }} 2>&1 &
+      shell: nohup locust -f ~/Projects/benchmarking/locustfiles/browser_client.py --slave --master-host={{ masterHost }} --host '{{targetSite}}' > {{ logUrl }} 2>&1 &
