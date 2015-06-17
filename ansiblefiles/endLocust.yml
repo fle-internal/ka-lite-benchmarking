@@ -1,0 +1,13 @@
+# deployLocust.yml
+---
+- hosts: master
+  tasks:
+    - name: end locust instances
+      sudo: yes
+      shell: nohup killall locust 2>&1 &
+
+- hosts: slave
+  tasks:
+    - name: end locust instances
+      sudo: yes
+      shell: nohup killall locust 2>&1 &
